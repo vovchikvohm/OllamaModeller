@@ -15,6 +15,7 @@
       <SolidColorBrush x:Key="AccentGreen" Color="#4CAF50"/>
       <SolidColorBrush x:Key="AccentRed" Color="#f44336"/>
       <SolidColorBrush x:Key="StatusBarBackground" Color="#007acc"/>
+      <BooleanToVisibilityConverter x:Key="BoolToVis"/>
     </ResourceDictionary>
   </Application.Resources>
 </Application>
