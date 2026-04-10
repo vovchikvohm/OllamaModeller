@@ -1,7 +1,10 @@
-bin/
-obj/
+bin/*/
+obj/*/
 .idea/
 *.suo
 *.user
 .vs/
-.superpowers/
+.superpowers/*/
+obj/*.nuget.g.props
+obj/*.nuget.g.targets
+obj/*_wpftmp.csproj.nuget.dgspec.json
