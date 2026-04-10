@@ -1,4 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using OllamaModeller.Models;
@@ -74,9 +79,17 @@ public class OllamaApiService : IDisposable
         while (!reader.EndOfStream && !ct.IsCancellationRequested)
         {
             var line = await reader.ReadLineAsync(ct);
-            if (line != null && JsonDocument.TryParse(line, out var doc) && doc.RootElement.TryGetProperty("progress", out var prog))
+            if (line != null)
             {
-                progress.Report(prog.GetDouble());
+                try
+                {
+                    using var doc = JsonDocument.Parse(line);
+                    if (doc.RootElement.TryGetProperty("progress", out var prog))
+                    {
+                        progress.Report(prog.GetDouble());
+                    }
+                }
+                catch { }
             }
         }
     }
