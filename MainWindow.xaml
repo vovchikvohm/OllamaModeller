@@ -73,8 +73,8 @@
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
                   <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="▶ Run" Background="{StaticResource AccentGreen}" Foreground="White" Padding="8,4" Margin="0,0,4,0" BorderThickness="0"/>
-                    <Button Content="✕ Delete" Background="{StaticResource AccentRed}" Foreground="White" Padding="8,4" BorderThickness="0"/>
+                    <Button Content="▶ Run" Command="{Binding DataContext.RunCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Name}" Background="{StaticResource AccentGreen}" Foreground="White" Padding="8,4" Margin="0,0,4,0" BorderThickness="0"/>
+                    <Button Content="✕ Delete" Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Name}" Background="{StaticResource AccentRed}" Foreground="White" Padding="8,4" BorderThickness="0"/>
                   </StackPanel>
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>
@@ -110,14 +110,21 @@
     <Border Grid.Row="3" Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
       <Grid>
         <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
         <TextBlock Text="Running Models" FontSize="14" Foreground="{StaticResource TextPrimary}" Margin="0,0,0,12"/>
+        <Button Grid.Column="1" Content="↻ Refresh" Command="{Binding RefreshCommand}"
+                Background="{StaticResource AccentBlue}" Foreground="White" Padding="12,6" BorderThickness="0"/>
         <DataGrid Grid.Row="1" ItemsSource="{Binding RunningModels}" AutoGenerateColumns="False"
                   Background="{StaticResource PanelBackground}" RowBackground="{StaticResource PanelBackground}"
                   AlternatingRowBackground="#1e1e1e" BorderThickness="1" BorderBrush="{StaticResource BorderBrush}"
                   HeadersVisibility="Column" GridLinesVisibility="None" IsReadOnly="True" CanUserAddRows="False">
           <DataGrid.Columns>
             <DataGridTextColumn Header="MODEL" Binding="{Binding Name}" Width="*" Foreground="#4ec9b0"/>
-            <DataGridTextColumn Header="CPU" Binding="{Binding CpuPercent, StringFormat={}{0:F0}%}" Width="100" Foreground="{StaticResource TextSecondary}"/>
+            <DataGridTextColumn Header="SIZE" Binding="{Binding Size}" Width="80" Foreground="{StaticResource TextSecondary}"/>
+            <DataGridTextColumn Header="CPU" Binding="{Binding CpuPercent, StringFormat={}{0:F0}%}" Width="50" Foreground="{StaticResource TextSecondary}"/>
+            <DataGridTextColumn Header="GPU" Binding="{Binding GpuPercent, StringFormat={}{0:F0}%}" Width="50" Foreground="{StaticResource TextSecondary}"/>
+            <DataGridTextColumn Header="CONTEXT" Binding="{Binding ContextFormatted}" Width="70" Foreground="{StaticResource TextSecondary}"/>
+            <DataGridTextColumn Header="UNTIL" Binding="{Binding RemainingTime}" Width="80" Foreground="{StaticResource TextSecondary}"/>
             <DataGridTemplateColumn Header="ACTIONS" Width="100">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
