@@ -96,8 +96,9 @@ public class OllamaApiService : IDisposable
 
     public async Task StopModelAsync(string modelName)
     {
-        var content = new StringContent(JsonSerializer.Serialize(new { name = modelName }), System.Text.Encoding.UTF8, "application/json");
-        await _httpClient.PostAsync("/api/generate", content);
+        var content = new StringContent(JsonSerializer.Serialize(new { model = modelName, keep_alive = 0 }), System.Text.Encoding.UTF8, "application/json");
+        using var response = await _httpClient.PostAsync("/api/generate", content);
+        response.EnsureSuccessStatusCode();
     }
 
     private static string FormatSize(long bytes)
